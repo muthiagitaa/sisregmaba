@@ -1,0 +1,61 @@
+
+package tubes;
+
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+public class Database {
+   private static final String driver = "com.mysql.jdbc.Driver";
+    private static final String database = "jdbc:mysql://localhost:3306/sisregmaba";
+    private static final String user = "root";
+    private static final String password = "";
+    
+    private Connection connection;        
+    private String pesanKesalahan;
+
+    public String getPesanKesalahan() {
+        return pesanKesalahan;
+    }
+    
+    public Connection getConnection(){
+        connection = null;        
+        pesanKesalahan = "";
+        
+        try{ 
+            Class.forName(driver); 
+            
+        } catch (ClassNotFoundException ex){ 
+            pesanKesalahan = "JDBC Driver tidak ditemukan atau rusak\n"+ex;
+        } 
+        
+        if (pesanKesalahan.equals("")){ 
+            try { 
+                connection = DriverManager.getConnection(database+"?user="+user+"&password="+password+""); 
+            } catch (SQLException ex) { 
+                pesanKesalahan = "Koneksi ke "+database+" gagal\n"+ex;
+            }
+        }
+        
+        return connection;
+    }
+    
+     public static void main(String[] args) throws ClassNotFoundException {
+
+    Connection conn = null;
+    String driver = "com.mysql.jdbc.Driver";
+    String database = "jdbc:mysql://localhost:3306/sisregmaba"; 
+    String user = "root";
+    String pass = ""; 
+    try {
+    Class.forName(driver);
+    conn = DriverManager.getConnection(database,user,pass);
+    System.out.println("Koneksi Berhasil");
+    } catch (SQLException e) {
+    System.out.println("SQLException: "+e.getMessage());
+    System.out.println("SQLState: "+e.getSQLState());
+    System.out.println("VendorError: "+e.getErrorCode());
+    }
+     }
+}
